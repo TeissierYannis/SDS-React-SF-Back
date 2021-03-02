@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+    {% import 'macro/macroMenu.html.twig' as macroMenu %}
+    {{ macroMenu.menu('Abdo en acier', 7) }}
+
+{% endblock %}
+
+{% block title %}Atelier index{% endblock %}
+
+{% block body %}
+    <h1>Atelier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Image</th>
+                <th>Unitedeperformance</th>
+                <th>Unitedintensite</th>
+                <th>Description</th>
+                <th>Resume</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for atelier in ateliers %}
+            <tr>
+                <td>{{ atelier.id }}</td>
+                <td>{{ atelier.titre }}</td>
+                <td>{{ atelier.image }}</td>
+                <td>{{ atelier.unitedeperformance }}</td>
+                <td>{{ atelier.unitedintensite }}</td>
+                <td>{{ atelier.description }}</td>
+                <td>{{ atelier.resume }}</td>
+                <td>
+                    <a href="{{ path('atelier_show', {'id': atelier.id}) }}">show</a>
+                    <a href="{{ path('atelier_edit', {'id': atelier.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('atelier_new') }}">Create new</a>
+{% endblock %}

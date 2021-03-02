@@ -1,0 +1,68 @@
+{% macro menu(nomSalle, menuActif, utilisateur = "none") %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">{{nomSalle}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item
+        {% if menuActif == 1 %}
+            active
+        {% endif %}">
+                    <a class="nav-link" href="/">Accueil</a>
+                </li>
+                <li class="nav-item
+      {% if menuActif == 2 %}
+            active
+        {% endif %}">
+                    <a class="nav-link" href="/Offres">Nos offres</a>
+                </li>
+                <li class="nav-item
+      {% if menuActif == 3 %}
+            active
+        {% endif %}">
+                    <a class="nav-link" href="/Principes">Nos principes</a>
+                </li>
+                <li class="nav-item
+      {% if menuActif == 4 %}
+            active
+        {% endif %}">
+                    <a class="nav-link" href="/form/avis">Avis</a>
+                </li>
+
+
+
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item
+            {% if menuActif == 6 %}
+                active
+                {% endif %}">
+                        <a class="nav-link" href="/pageaccueil">Mon compte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
+                    <li class="nav-item
+                        {% if menuActif == 7 %}
+                            active
+                        {% endif %}">
+                        <a class="nav-link" href="{{ path('atelier_index') }}">Atelier</a>
+                </li>
+                {%  else %}
+                    <li class="nav-item
+          {% if menuActif == 5 %}
+            active
+          {% endif %}">
+                        <a class="nav-link" href="/login">Connexion</a>
+                    </li>
+
+
+
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+{% endmacro%}

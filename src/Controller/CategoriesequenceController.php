@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+use App\Service\ContainerParametersHelper;
 /**
  * @Route("/categoriesequence")
  */
@@ -34,7 +34,7 @@ class CategoriesequenceController extends AbstractController
     /**
      * @Route("/new", name="categoriesequence_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger, ContainerParametersHelper $pathHelpers): Response
     {
         $categoriesequence = new Categoriesequence();
         $form = $this->createForm(CategoriesequenceType::class, $categoriesequence);
@@ -48,7 +48,7 @@ class CategoriesequenceController extends AbstractController
             // this is needed to safely include the file name as part of the URL
             $safeFilename = $slugger->slug($originalFilename);
             $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-            $dir = $this->get('kernel')->getProjectDir();
+            $dir = $pathHelpers->getApplicationRootDir()."/public/image/";
             $file->move($dir, $newFilename);
 
             $categoriesequence->setImage($newFilename);
@@ -78,13 +78,26 @@ class CategoriesequenceController extends AbstractController
     /**
      * @Route("/{id}/edit", name="categoriesequence_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Categoriesequence $categoriesequence): Response
+    public function edit(Request $request, Categoriesequence $categoriesequence, SluggerInterface $slugger, ContainerParametersHelper $pathHelpers): Response
     {
         $form = $this->createForm(CategoriesequenceType::class, $categoriesequence);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+           // $this->getDoctrine()->getManager()->flush();
+
+            $file = $form['image']->getData();
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $dir = $pathHelpers->getApplicationRootDir()."/public/image/";
+            $file->move($dir, $newFilename);
+
+            $categoriesequence->setImage($newFilename);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($categoriesequence);
+            $entityManager->flush();
 
             return $this->redirectToRoute('categoriesequence_index');
         }

@@ -1,4 +1,19 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    {{ form_row(form.titre) }}
+    {{ form_row(form.image) }}
+
+ {# Si la route est "annonces_edit on affiche les images #}
+	{% if app.request.attributes.get('_route') == 'categoriesequence_edit' %}
+        <h2>Image</h2>
+
+            <div>
+                <img src="{{ asset('/image/'~categoriesequence.image) }}" alt="" width="150">
+
+
+            </div>
+
+    {% endif %}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+

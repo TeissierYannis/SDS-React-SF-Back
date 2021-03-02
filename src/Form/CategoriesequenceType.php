@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class CategoriesequenceType extends AbstractType
 {
@@ -14,7 +15,15 @@ class CategoriesequenceType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('image', FileType::class)
+            ->add('image', FileType::class,[
+                'label' => false,
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Image()
+                ]
+            ])
         ;
     }
 

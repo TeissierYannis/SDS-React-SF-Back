@@ -56,6 +56,12 @@
                         {% endif %}">
                         <a class="nav-link" href="{{ path('categoriesequence_index') }}">Categorie Séquence</a>
                     </li>
+                    <li class="nav-item
+                        {% if menuActif == 9 %}
+                            active
+                        {% endif %}">
+                        <a class="nav-link" href="{{ path('sequencetheorique_index') }}">Categorie Séquence</a>
+                    </li>
                 {%  else %}
                     <li class="nav-item
           {% if menuActif == 5 %}

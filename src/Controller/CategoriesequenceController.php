@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Categoriesequence;
 use App\Form\CategoriesequenceType;
+use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/categoriesequence")
@@ -31,13 +34,24 @@ class CategoriesequenceController extends AbstractController
     /**
      * @Route("/new", name="categoriesequence_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         $categoriesequence = new Categoriesequence();
         $form = $this->createForm(CategoriesequenceType::class, $categoriesequence);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $file = $form['image']->getData();
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $dir = $this->get('kernel')->getProjectDir();
+            $file->move($dir, $newFilename);
+
+            $categoriesequence->setImage($newFilename);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($categoriesequence);
             $entityManager->flush();

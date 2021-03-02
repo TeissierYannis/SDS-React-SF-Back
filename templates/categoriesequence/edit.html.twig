@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Categoriesequence{% endblock %}
+
+{% block menu %}
+    {% import 'macro/macroMenu.html.twig' as macroMenu %}
+    {{ macroMenu.menu('Abdo en acier', 8) }}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Categoriesequence</h1>
+
+    {{ include('categoriesequence/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('categoriesequence_index') }}">back to list</a>
+
+    {{ include('categoriesequence/_delete_form.html.twig') }}
+{% endblock %}

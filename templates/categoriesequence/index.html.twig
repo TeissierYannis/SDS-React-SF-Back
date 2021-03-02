@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categoriesequence index{% endblock %}
+
+{% block menu %}
+    {% import 'macro/macroMenu.html.twig' as macroMenu %}
+    {{ macroMenu.menu('Abdo en acier', 8) }}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Categoriesequence index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categoriesequence in categoriesequences %}
+            <tr>
+                <td>{{ categoriesequence.id }}</td>
+                <td>{{ categoriesequence.titre }}</td>
+                <td>{{ categoriesequence.image }}</td>
+                <td>
+                    <a href="{{ path('categoriesequence_show', {'id': categoriesequence.id}) }}">show</a>
+                    <a href="{{ path('categoriesequence_edit', {'id': categoriesequence.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('categoriesequence_new') }}">Create new</a>
+{% endblock %}

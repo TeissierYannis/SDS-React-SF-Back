@@ -1,0 +1,17 @@
+
+Git :
+    Après un git clone (composer resynchronise symfony) : composer update
+
+Entité vers Mysql
+    php bin/console make:migration
+    php bin/console doctrine:migrations:migrate
+
+MySql vers Entité
+
+Créer une entité/mettre à jour
+    php bin/console make:entity
+
+Pour ajouter les get/set
+ php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity --filter="matable"
+
+php bin/console make:entity --regenerate App

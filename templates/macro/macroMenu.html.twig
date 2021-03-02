@@ -49,7 +49,13 @@
                             active
                         {% endif %}">
                         <a class="nav-link" href="{{ path('atelier_index') }}">Atelier</a>
-                </li>
+                     </li>
+                    <li class="nav-item
+                        {% if menuActif == 8 %}
+                            active
+                        {% endif %}">
+                        <a class="nav-link" href="{{ path('categoriesequence_index') }}">Categorie Séquence</a>
+                    </li>
                 {%  else %}
                     <li class="nav-item
           {% if menuActif == 5 %}

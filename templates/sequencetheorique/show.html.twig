@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Sequencetheorique</h1>
+    <h1>Sequences</h1>
 
     <table class="table">
         <tbody>
@@ -27,9 +27,91 @@
         </tbody>
     </table>
 
-    <a href="{{ path('sequencetheorique_index') }}">back to list</a>
-
     <a href="{{ path('sequencetheorique_edit', {'id': sequencetheorique.id}) }}">edit</a>
 
+    <h1>Listes des activités</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Atelier</th>
+            <th>Performence</th>
+            <th>Intensité</th>
+
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for activitesequencetheorique in activitesequencetheoriques %}
+            <tr>
+                <td>{{ activitesequencetheorique.idatelier.titre }}</td>
+                <td>{{ activitesequencetheorique.perfobjectif }} {{ activitesequencetheorique.idatelier.unitedeperformance }}</td>
+                <td>{{ activitesequencetheorique.intensiteObjectif }} {{ activitesequencetheorique.idatelier.unitedintensite }}</td>
+
+
+                <td>
+                    <a href="{{ path('activitesequencetheorique_show', {'id': activitesequencetheorique.id}) }}">show</a>
+                    <a href="{{ path('activitesequencetheorique_edit', {'id': activitesequencetheorique.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+        {{ form_start(form) }}
+            <td>
+                {{ form_row(form.idatelier) }}
+            </td>
+        <td>
+        {{ form_widget(form.perfobjectif) }} <span id="perfobjectif_span">{{ atelier.unitedeperformance }}</span>
+        </td>
+            <td>
+            {{ form_widget(form.intensiteobjectif) }}  <span id="intensiteobjectif_span">{{ atelier.unitedintensite }}</span>
+            </td>
+
+            <td>
+        <button class="btn">{{ button_label|default('Save') }}</button>
+            </td>
+        {{ form_end(form) }}
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sequencetheorique_index') }}">back to list</a>
+
+
+
     {{ include('sequencetheorique/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+            $('#activitesequencetheorique_idatelier').change(function () {
+                var activitesequencetheorique_idatelier = $(this);
+
+                // Request the neighborhoods of the selected city.
+                $.ajax({
+                    url: "{{ path('donneInfoAtelier_ajax') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        atelierid: activitesequencetheorique_idatelier.val()
+                    },
+                    success: function (atelier) {
+                        $("#perfobjectif_span").html(""+atelier.unitedeperformance);
+
+                        $("#intensiteobjectif_span").html(atelier.unitedintensite);
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

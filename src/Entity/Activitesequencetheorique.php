@@ -29,6 +29,13 @@ class Activitesequencetheorique
     private $perfobjectif;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="intensiteObjectif", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $intensiteobjectif;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $ordre;
@@ -58,6 +65,18 @@ class Activitesequencetheorique
     public function setPerfobjectif(float $perfobjectif): self
     {
         $this->perfobjectif = $perfobjectif;
+
+        return $this;
+    }
+
+    public function getIntensiteobjectif(): ?float
+    {
+        return $this->intensiteobjectif;
+    }
+
+    public function setIntensiteobjectif(float $intensiteObjectif): self
+    {
+        $this->intensiteobjectif = $intensiteObjectif;
 
         return $this;
     }

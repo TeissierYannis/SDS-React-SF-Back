@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Atelier;
 use App\Form\AtelierType;
+use App\Service\ContainerParametersHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/atelier")
@@ -31,13 +33,24 @@ class AtelierController extends AbstractController
     /**
      * @Route("/new", name="atelier_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SluggerInterface $slugger, ContainerParametersHelper $pathHelpers): Response
     {
         $atelier = new Atelier();
         $form = $this->createForm(AtelierType::class, $atelier);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $file = $form['image']->getData();
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $dir = $pathHelpers->getApplicationRootDir()."/public/image/";
+            $file->move($dir, $newFilename);
+
+            $atelier->setImage($newFilename);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($atelier);
             $entityManager->flush();
@@ -64,15 +77,27 @@ class AtelierController extends AbstractController
     /**
      * @Route("/{id}/edit", name="atelier_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Atelier $atelier): Response
+    public function edit(Request $request, Atelier $atelier, SluggerInterface $slugger, ContainerParametersHelper $pathHelpers): Response
     {
         $form = $this->createForm(AtelierType::class, $atelier);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $file = $form['image']->getData();
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $dir = $pathHelpers->getApplicationRootDir()."/public/image/";
+            $file->move($dir, $newFilename);
+
+            $atelier->setImage($newFilename);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($atelier);
+            $entityManager->flush();
 
             return $this->redirectToRoute('atelier_index');
+
         }
 
         return $this->render('atelier/edit.html.twig', [

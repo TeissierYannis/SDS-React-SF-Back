@@ -19,7 +19,7 @@ class AtelierType extends AbstractType
                 'label' => false,
                 'multiple' => false,
                 'mapped' => false,
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new Image()
                 ]

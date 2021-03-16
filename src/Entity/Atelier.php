@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="atelier")
  * @ORM\Entity
+ * @ApiResource
  */
 class Atelier
 {

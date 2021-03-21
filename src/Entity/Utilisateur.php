@@ -174,5 +174,7 @@ class Utilisateur implements UserInterface
     */
     public function eraseCredentials(): void
     {
+        $this->password = "";
+        $this->id = -1 ;
     }
 }

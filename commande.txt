@@ -25,3 +25,14 @@ Commande spéciale API : Ajouter APIPlatform
 
 Fichier de la route de l'api : config/routes/api_platform.yaml
 Ajouter annotation : @ApiResource dans une entité et use ApiPlatform\Core\Annotation\ApiResource;
+
+
+composer require lexik/jwt-authentication-bundle
+installer open-ssl windows
+
+mkdir config/jwt
+openssl genrsa -out private.pem -aes256 4096
+openssl rsa -pubout -in private.pem -out public.pem
+
+
+

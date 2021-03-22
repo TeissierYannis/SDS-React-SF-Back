@@ -1,10 +1,10 @@
 
 Démarrer le serveur :
-    symfony server:start
-
+    symfony server:start -d
+(pour qu'il soit en mode service en tâche de fond)
 
 Git :
-    Après un git clone (composer resynchronise symfony) : composer update
+    Après un git clone (composer resynchronise symfony) : composer install
 
 Entité vers Mysql
     php bin/console make:migration
@@ -28,11 +28,15 @@ Ajouter annotation : @ApiResource dans une entité et use ApiPlatform\Core\Annot
 
 
 composer require lexik/jwt-authentication-bundle
+
 installer open-ssl windows
 
 mkdir config/jwt
-openssl genrsa -out private.pem -aes256 4096
+openssl genrsa -out <chemin vers dossier <symfony>/config/jwt>private.pem -aes256 4096
 openssl rsa -pubout -in private.pem -out public.pem
 
+C:\Program Files\OpenSSL-Win64\bin>openssl genrsa -out D:\projet\AuthentificationApi\config\jwt\private.pem -aes256 4096
+
+C:\Program Files\OpenSSL-Win64\bin>openssl rsa -pubout -in D:\projet\AuthentificationApi\config\jwt\private.pem -out D:\projet\AuthentificationApi\config\jwt\public.pem
 
 

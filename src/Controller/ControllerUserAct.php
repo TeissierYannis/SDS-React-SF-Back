@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Atelier;
+use App\Entity\CommentaireAtelier;
 use App\Entity\Utilisateur;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,4 +29,31 @@ class ControllerUserAct  extends AbstractController
         $user->eraseCredentials(); //Pour effacer les informations sensibles
         return $this->json($user);
     }
+
+    /**
+     * @Route("/api/commentaire/atelier/{id}", name="ajouterCommentaire_route", methods={"POST"})
+     *
+     * @param Atelier $atelier
+     *
+     * @return Response
+     */
+    public function ajouterCommentaire_route(Atelier $atelier, Request $request): Response
+    {
+        //dd($request);
+        $data = $request->toArray();
+        //dd($data);
+        $commentaire = new CommentaireAtelier();
+
+        $commentaire->setAtelier($atelier);
+        $commentaire->setProprietaire($this->getUser());
+        $commentaire->setDate(new \DateTime());
+        $commentaire->setTitre($data["titre"]);
+        $commentaire->setMessage($data["message"]);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+        return $this->json($commentaire);
+    }
+
 }

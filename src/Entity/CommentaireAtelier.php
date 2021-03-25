@@ -1,12 +1,22 @@
 <?php
 
 namespace App\Entity;
-
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentaireAtelierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
+ *
+ * @ApiResource(itemOperations={
+ *     "get",
+ *     "delete"={"security"="is_granted('ROLE_ADMIN') or object.proprietaire == user"},
+ *     "customer_action"={
+ *          "method"="post",
+ *          "security"="is_granted('ROLE_USER')",
+ *          "route_name"="ajouterCommentaire_route"
+ *      }
+ * })
  */
 class CommentaireAtelier
 {

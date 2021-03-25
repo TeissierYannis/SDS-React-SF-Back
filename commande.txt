@@ -32,8 +32,8 @@ composer require lexik/jwt-authentication-bundle
 installer open-ssl windows
 
 mkdir config/jwt
-openssl genrsa -out <chemin vers dossier <symfony>/config/jwt>private.pem -aes256 4096
-openssl rsa -pubout -in private.pem -out public.pem
+openssl genrsa -out `chemin vers dossier symfony`/config/jwt>private.pem -aes256 4096
+openssl rsa -pubout -in `chemin vers dossier symfony`/private.pem -out `chemin vers dossier symfony`/public.pem
 
 C:\Program Files\OpenSSL-Win64\bin>openssl genrsa -out D:\projet\AuthentificationApi\config\jwt\private.pem -aes256 4096
 

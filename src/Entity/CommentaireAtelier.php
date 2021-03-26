@@ -5,6 +5,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentaireAtelierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
  *
@@ -24,27 +25,32 @@ class CommentaireAtelier
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("atelier:lecture")*
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("atelier:lecture")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("atelier:lecture")
      */
     private $message;
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaireAteliers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups("atelier:lecture")
      */
     private $proprietaire;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("atelier:lecture")
      */
     private $date;
 

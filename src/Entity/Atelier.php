@@ -7,13 +7,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Atelier
  *
  * @ORM\Table(name="atelier")
  * @ORM\Entity
  *
- * @ApiResource
+ * @ApiResource(
+ *     normalizationContext={"groups"={"atelier:lecture"}},
+ *      itemOperations={
+ *         "get",
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *     },
+ * )
  */
 class Atelier
 {
@@ -23,6 +32,8 @@ class Atelier
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups("atelier:lecture")
      */
     private $id;
 
@@ -30,6 +41,8 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
+     *
+     * @Groups("atelier:lecture")
      */
     private $titre;
 
@@ -37,6 +50,8 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=false)
+     *
+     * @Groups("atelier:lecture")
      */
     private $image;
 
@@ -44,6 +59,7 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="uniteDePerformance", type="text", length=65535, nullable=false)
+     * @Groups("atelier:lecture")
      */
     private $unitedeperformance;
 
@@ -51,6 +67,8 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="uniteDIntensite", type="text", length=65535, nullable=false)
+     *
+     * @Groups("atelier:lecture")
      */
     private $unitedintensite;
 
@@ -58,6 +76,8 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     *
+     * @Groups("atelier:lecture")
      */
     private $description;
 
@@ -65,11 +85,14 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="resume", type="text", length=65535, nullable=false)
+     *
+     * @Groups("atelier:lecture")
      */
     private $resume;
 
     /**
      * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="atelier")
+     * @Groups("atelier:lecture")
      */
     private $commentaires;
 

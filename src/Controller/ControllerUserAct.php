@@ -27,7 +27,7 @@ class ControllerUserAct  extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $user->eraseCredentials(); //Pour effacer les informations sensibles
-        return $this->json($user);
+        return $this->json($user,200,[],['groups'=>'utilisateur:lecture']);
     }
 
     /**

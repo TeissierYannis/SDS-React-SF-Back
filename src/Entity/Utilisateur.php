@@ -1,10 +1,11 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity
  * @ORM\Table(name="Utilisateur")
@@ -18,12 +19,14 @@ class Utilisateur implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("atelier:lecture","utilisateur:lecture")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
+     * @Groups("utilisateur:lecture")
      */
     private $login;
 
@@ -31,6 +34,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string" )
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
+     * @Groups("atelier:lecture","utilisateur:lecture")
      */
     private $nomUtilisateur;
 
@@ -38,12 +42,14 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
+     * @Groups("atelier:lecture","utilisateur:lecture")
      */
     private $prenomUtilisateur;
 
     /**
      * @ORM\Column(type="string", unique=true )
      * @Assert\Email()
+     * @Groups("atelier:lecture","utilisateur:lecture")
      */
     private $email;
 
@@ -57,6 +63,11 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="proprietaire")
+     */
+    private $commentaireAteliers;
 
     /**
      * Utilisateur constructor.
@@ -176,5 +187,35 @@ class Utilisateur implements UserInterface
     {
         $this->password = "";
         $this->id = -1 ;
+    }
+
+    /**
+     * @return Collection|CommentaireAtelier[]
+     */
+    public function getCommentaireAteliers(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaireAteliers(CommentaireAtelier $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setAtelier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaireAteliers(CommentaireAtelier $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getAtelier() === $this) {
+                $commentaire->setAtelier(null);
+            }
+        }
+
+        return $this;
     }
 }

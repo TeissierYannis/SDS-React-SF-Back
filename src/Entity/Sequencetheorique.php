@@ -6,11 +6,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * Sequencetheorique
  *
  * @ORM\Table(name="sequencetheorique")
  * @ORM\Entity
+ * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
+ *     itemOperations={
+ *          "get"={
+ *                  "security"="is_granted('ROLE_USER')",
+ *                  "normalization_context"={"groups"={"sequence:lecture"}},
+ *          },
+ *          "patch"={
+ *                  "security"="object.getProprietaire() == user"
+ *          },
+ *          "delete"={
+ *                  "security"="object.getProprietaire() == user"
+ *          },
+ *          "customer_action"={
+ *                  "method"="post",
+ *                  "security"="is_granted('ROLE_USER')",
+ *                  "route_name"="ajouterSequencetheorique_route"
+ *          },
+ *     }
+ * )
  */
 class Sequencetheorique
 {
@@ -20,6 +42,8 @@ class Sequencetheorique
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups("sequence:lecture")
      */
     private $id;
 
@@ -27,6 +51,8 @@ class Sequencetheorique
      * @var string
      *
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
+     *
+     * @Groups("sequence:lecture")
      */
     private $titre;
 
@@ -34,11 +60,14 @@ class Sequencetheorique
      * @var int
      *
      * @ORM\Column(name="niveau", type="integer", nullable=false)
+     *
+     * @Groups("sequence:lecture")
      */
     private $niveau;
 
     /**
      * @ORM\OneToMany(targetEntity=Activitesequencetheorique::class, mappedBy="idsequencetheorique", orphanRemoval=true)
+     *
      */
     private $activitesequencetheoriques;
 
@@ -47,6 +76,17 @@ class Sequencetheorique
      * @ORM\JoinColumn(nullable=false)
      */
     private $idcategoriesequence;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $proprietaire;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $partage;
 
     public function __construct()
     {
@@ -120,6 +160,30 @@ class Sequencetheorique
     public function setIdcategoriesequence(?Categoriesequence $idcategoriesequence): self
     {
         $this->idcategoriesequence = $idcategoriesequence;
+
+        return $this;
+    }
+
+    public function getProprietaire(): ?Utilisateur
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(?Utilisateur $proprietaire): self
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    public function getPartage(): ?bool
+    {
+        return $this->partage;
+    }
+
+    public function setPartage(?bool $partage): self
+    {
+        $this->partage = $partage;
 
         return $this;
     }

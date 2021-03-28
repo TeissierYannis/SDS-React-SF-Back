@@ -26,7 +26,7 @@ class Utilisateur implements UserInterface
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
-     * @Groups("utilisateur:lecture")
+     * @Groups("utilisateur:lecture", "atelier:lecture")
      */
     private $login;
 
@@ -64,10 +64,7 @@ class Utilisateur implements UserInterface
      */
     private $roles = [];
 
-    /**
-     * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="proprietaire")
-     */
-    private $commentaireAteliers;
+
 
     /**
      * Utilisateur constructor.
@@ -185,37 +182,9 @@ class Utilisateur implements UserInterface
     */
     public function eraseCredentials(): void
     {
-        $this->password = "";
-        $this->id = -1 ;
+    //    $this->password = "";
+    //    $this->id = -1 ;
     }
 
-    /**
-     * @return Collection|CommentaireAtelier[]
-     */
-    public function getCommentaireAteliers(): Collection
-    {
-        return $this->commentaires;
-    }
 
-    public function addCommentaireAteliers(CommentaireAtelier $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setAtelier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaireAteliers(CommentaireAtelier $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getAtelier() === $this) {
-                $commentaire->setAtelier(null);
-            }
-        }
-
-        return $this;
-    }
 }

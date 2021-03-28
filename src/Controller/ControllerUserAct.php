@@ -26,7 +26,6 @@ class ControllerUserAct  extends AbstractController
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        $user->eraseCredentials(); //Pour effacer les informations sensibles
         return $this->json($user,200,[],['groups'=>'utilisateur:lecture']);
     }
 
@@ -52,8 +51,36 @@ class ControllerUserAct  extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($commentaire);
+
         $entityManager->flush();
-        return $this->json($commentaire);
+        return $this->json($commentaire,200,[],['groups'=>'atelier:lecture']);
+    }
+
+    /**
+     * @Route("/ajouterSequencetheorique/", name="ajouterSequencetheorique_route", methods={"POST"})
+     *
+     * @param Atelier $atelier
+     *
+     * @return Response
+     */
+    public function ajouterSequencetheorique_route(Atelier $atelier, Request $request): Response
+    {
+        //dd($request);
+        $data = $request->toArray();
+        //dd($data);
+        $commentaire = new CommentaireAtelier();
+
+        $commentaire->setAtelier($atelier);
+        $commentaire->setProprietaire($this->getUser());
+        $commentaire->setDate(new \DateTime());
+        $commentaire->setTitre($data["titre"]);
+        $commentaire->setMessage($data["message"]);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($commentaire);
+
+        $entityManager->flush();
+        return $this->json($commentaire,200,[],['groups'=>'atelier:lecture']);
     }
 
 }

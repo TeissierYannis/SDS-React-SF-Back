@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 /**
- * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
+ * @ORM\Table(name="commentaire_atelier")
+ * @ORM\Entity
  *
  * @ApiResource(itemOperations={
  *     "get",
- *     "delete"={"security"="is_granted('ROLE_ADMIN') or object.proprietaire == user"},
+ *     "delete"={"security"="is_granted('ROLE_ADMIN') or object.getProprietaire() == user"},
  *     "customer_action"={
  *          "method"="post",
  *          "security"="is_granted('ROLE_USER')",
@@ -25,7 +26,7 @@ class CommentaireAtelier
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("atelier:lecture")*
+     * @Groups("atelier:lecture")
      */
     private $id;
 
@@ -42,7 +43,7 @@ class CommentaireAtelier
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaireAteliers")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class )
      * @ORM\JoinColumn(nullable=true)
      * @Groups("atelier:lecture")
      */

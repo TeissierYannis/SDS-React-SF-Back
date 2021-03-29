@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * Activitesequencetype
  *
@@ -18,6 +19,7 @@ class Activitesequencetheorique
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("sequence:lecture")
      */
     private $id;
 
@@ -25,6 +27,7 @@ class Activitesequencetheorique
      * @var float
      *
      * @ORM\Column(name="perfObjectif", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $perfobjectif;
 
@@ -32,11 +35,13 @@ class Activitesequencetheorique
      * @var float
      *
      * @ORM\Column(name="intensiteObjectif", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $intensiteobjectif;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("sequence:lecture")
      */
     private $ordre;
 
@@ -49,6 +54,7 @@ class Activitesequencetheorique
     /**
      * @ORM\ManyToOne(targetEntity=Atelier::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $idatelier;
 

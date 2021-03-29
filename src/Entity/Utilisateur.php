@@ -19,14 +19,14 @@ class Utilisateur implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("atelier:lecture","utilisateur:lecture")
+     * @Groups("atelier:lecture","utilisateur:lecture","sequence:lecture")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
-     * @Groups("utilisateur:lecture", "atelier:lecture")
+     * @Groups("utilisateur:lecture", "atelier:lecture","sequence:lecture")
      */
     private $login;
 
@@ -34,7 +34,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string" )
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
-     * @Groups("atelier:lecture","utilisateur:lecture")
+     * @Groups("atelier:lecture","utilisateur:lecture","sequence:lecture")
      */
     private $nomUtilisateur;
 
@@ -42,7 +42,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
-     * @Groups("atelier:lecture","utilisateur:lecture")
+     * @Groups("atelier:lecture","utilisateur:lecture","sequence:lecture")
      */
     private $prenomUtilisateur;
 

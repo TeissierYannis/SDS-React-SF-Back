@@ -43,3 +43,9 @@ C:\Program Files\OpenSSL-Win64\bin>openssl rsa -pubout -in D:\projet\Authentific
 https://yusufbiberoglu.medium.com/jwt-authentication-and-refresh-token-on-api-platform-7c6ecaa8e236
 Ajout du bundle JWT pour refresh : composer require gesdinet/jwt-refresh-token-bundle
 
+    composer install (si on a clôné avec une version d'installée)
+ou
+    composer require "doctrine/orm" "doctrine/doctrine-bundle" "gesdinet/jwt-refresh-token-bundle"
+
+mise à jour de la BDD
+php bin/console doctrine:schema:update --force

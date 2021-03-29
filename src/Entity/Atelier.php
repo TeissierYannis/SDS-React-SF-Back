@@ -33,7 +33,7 @@ class Atelier
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $id;
 
@@ -42,7 +42,7 @@ class Atelier
      *
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $titre;
 
@@ -51,7 +51,7 @@ class Atelier
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=false)
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $image;
 
@@ -59,7 +59,7 @@ class Atelier
      * @var string
      *
      * @ORM\Column(name="uniteDePerformance", type="text", length=65535, nullable=false)
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $unitedeperformance;
 
@@ -68,7 +68,7 @@ class Atelier
      *
      * @ORM\Column(name="uniteDIntensite", type="text", length=65535, nullable=false)
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $unitedintensite;
 
@@ -77,7 +77,7 @@ class Atelier
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $description;
 
@@ -86,13 +86,13 @@ class Atelier
      *
      * @ORM\Column(name="resume", type="text", length=65535, nullable=false)
      *
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture","sequence:lecture")
      */
     private $resume;
 
     /**
      * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="atelier")
-     * @Groups("atelier:lecture")
+     * @Groups("atelier:lecture", "sequence:lecture")
      */
     private $commentaires;
 

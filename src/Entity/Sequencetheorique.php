@@ -15,6 +15,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Entity
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_USER')"},
+ *     normalizationContext={"groups"={"sequence:lecture"}},
  *     itemOperations={
  *          "get"={
  *                  "security"="is_granted('ROLE_USER')",
@@ -67,24 +68,27 @@ class Sequencetheorique
 
     /**
      * @ORM\OneToMany(targetEntity=Activitesequencetheorique::class, mappedBy="idsequencetheorique", orphanRemoval=true)
-     *
+     * @Groups("sequence:lecture")
      */
     private $activitesequencetheoriques;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categoriesequence::class, inversedBy="sequencetheoriques")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $idcategoriesequence;
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("sequence:lecture")
      */
     private $proprietaire;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("sequence:lecture")
      */
     private $partage;
 

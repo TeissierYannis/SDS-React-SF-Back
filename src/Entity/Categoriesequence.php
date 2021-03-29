@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Categoriesequence
  *
@@ -20,6 +20,7 @@ class Categoriesequence
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("sequence:lecture")
      */
     private $id;
 
@@ -27,6 +28,7 @@ class Categoriesequence
      * @var string
      *
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $titre;
 
@@ -34,6 +36,7 @@ class Categoriesequence
      * @var string
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=false)
+     * @Groups("sequence:lecture")
      */
     private $image;
 

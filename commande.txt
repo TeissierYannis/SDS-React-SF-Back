@@ -40,3 +40,6 @@ C:\Program Files\OpenSSL-Win64\bin>openssl genrsa -out D:\projet\Authentificatio
 C:\Program Files\OpenSSL-Win64\bin>openssl rsa -pubout -in D:\projet\AuthentificationApi\config\jwt\private.pem -out D:\projet\AuthentificationApi\config\jwt\public.pem
 
 
+https://yusufbiberoglu.medium.com/jwt-authentication-and-refresh-token-on-api-platform-7c6ecaa8e236
+Ajout du bundle JWT pour refresh : composer require gesdinet/jwt-refresh-token-bundle
+

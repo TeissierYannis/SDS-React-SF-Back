@@ -29,9 +29,15 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+        refresh:                            #Ajouté pour le refresh de token
+            pattern:  ^/token/refresh       #Ajouté pour le refresh de token
+            stateless: true                 #Ajouté pour le refresh de token
+            anonymous: true                 #Ajouté pour le refresh de token
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/atelier, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER]}
         - { path: ^/getCurrentUser, roles: [ROLE_USER]}
+        - { path: ^/api/token/refresh, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+

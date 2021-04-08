@@ -7,9 +7,9 @@ use App\Repository\BoissonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=BoissonRepository::class)
+ * @ORM\Entity()
  *
- * @ApiResource
+ * @ApiResource()
  */
 class Boisson
 {

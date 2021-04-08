@@ -1,3 +1,4 @@
+#./config/packages/gesdinet_jwt_refresh_token.yaml
 gesdinet_jwt_refresh_token:
   ttl: 300 #300 s = 5 minutes
   ttl_update: true

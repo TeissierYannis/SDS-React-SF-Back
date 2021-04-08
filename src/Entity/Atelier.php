@@ -92,7 +92,7 @@ class Atelier
 
     /**
      * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="atelier")
-     * @Groups("atelier:lecture", "sequence:lecture")
+     * @Groups("atelier:lecture")
      */
     private $commentaires;
 

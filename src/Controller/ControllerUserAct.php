@@ -2,8 +2,10 @@
 namespace App\Controller;
 
 use App\Entity\Atelier;
+use App\Entity\Categoriesequence;
 use App\Entity\CommentaireAtelier;
 use App\Entity\Utilisateur;
+use App\Entity\Sequencetheorique;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -82,5 +84,51 @@ class ControllerUserAct  extends AbstractController
         $entityManager->flush();
         return $this->json($commentaire,200,[],['groups'=>'atelier:lecture']);
     }
+
+    /**
+     * @Route("/listesequencespersonnelles/", name="listeSequencesPersonnelles", methods={"GET"})
+     *
+     *
+     * @return Response
+     */
+    public function listeSequencesPersonnelles(Request $request):Response
+    {
+        $results = $this
+            ->getDoctrine()
+            ->getRepository(Sequencetheorique::class)
+            ->findBy(['proprietaire'=>$this->getUser()] );
+        return $this->json($results,200,[],['groups'=>'sequence:lecture']);
+    }
+
+    /**
+     * @Route("/creerunesequence/", name="creerunesequence", methods={"GET"})
+     *
+     *
+     * @return Response
+     */
+    public function creerunesequence(Request $request):Response
+    {
+        $CategorieSequence = $this
+            ->getDoctrine()
+            ->getRepository(Categoriesequence::class);
+
+        $firstCat = $CategorieSequence->findAll()[0];
+
+        $sequenceTheorique = new Sequencetheorique();
+        $sequenceTheorique->setTitre("Nouvelle séquence");
+        $sequenceTheorique->setProprietaire($this->getUser());
+        $sequenceTheorique->setPartage(false);
+        $sequenceTheorique->setNiveau(1);
+        $sequenceTheorique->setIdcategoriesequence($firstCat);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($sequenceTheorique);
+        $entityManager->flush();
+
+        return $this->json($sequenceTheorique,200,[],['groups'=>'sequence:lecture']);
+
+    }
+
+
 
 }

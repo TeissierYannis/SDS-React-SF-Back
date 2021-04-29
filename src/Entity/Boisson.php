@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ORM\Table(name="boisson")
  * @ORM\Entity()
  *
  * @ApiResource(
@@ -24,9 +25,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Boisson
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
      * @Groups("boisson:lecture")
      */
     private $id;

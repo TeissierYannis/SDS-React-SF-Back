@@ -8,7 +8,7 @@ use App\Entity\Activitesequencetheorique;
 use App\Entity\Sequencetheorique;
 use Doctrine\ORM\EntityRepository;
 
-class ActivitesequencetheoriqueRepository extends EntityRepository
+class ActivitesquencetheoriqueRepository extends EntityRepository
 {
     /**
      * @return Activitesequencetheorique[]

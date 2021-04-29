@@ -1,7 +1,6 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +12,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Utilisateur implements UserInterface
 {
-
 
     /**
      * @ORM\Id
@@ -63,7 +61,6 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
 
 
     /**
@@ -185,6 +182,5 @@ class Utilisateur implements UserInterface
     //    $this->password = "";
     //    $this->id = -1 ;
     }
-
 
 }
